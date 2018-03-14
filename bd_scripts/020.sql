@@ -1,0 +1,7 @@
+insert into menu (id, idmenu, nome, iconCls,posicao,className)
+values(24, 3, 'Condições de Pagamento', 'xf1f1', 22, 'condicoes-pagamento-grid')
+GO
+
+insert into perfil_menu (idPerfil, idmenu)
+values(1,24)
+GO

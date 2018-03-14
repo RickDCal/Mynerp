@@ -1,0 +1,74 @@
+package br.com.mynerp.apresentacao.facade.estaticos;
+
+import java.util.List;
+import java.util.Properties;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import br.com.mynerp.negocio.IListaTabelasServiceLocal;
+import br.com.mynerp.negocio.exception.ListaTabelasInexistenteException;
+import br.com.mynerp.persistencia.Cobranca;
+import br.com.mynerp.persistencia.CondicaoPagamento;
+import br.com.mynerp.persistencia.dao.exception.ListaTabelasNaoEncontradoException;
+
+public class ListaTabelasFacade {
+	
+	private Properties p;
+	private Context c;
+	
+	public IListaTabelasServiceLocal service;
+	
+	public ListaTabelasFacade() throws NamingException {
+		
+		p = new Properties();
+		c = new InitialContext(p);
+		service = (IListaTabelasServiceLocal)c.lookup("java:global/mynerpEAR/mynerpEJB/ListaTabelasService");
+		
+	}
+	
+	//Formas de cobran�a
+	public List<Cobranca> pesquisarCobrancas(Integer idPagarReceber) throws ListaTabelasNaoEncontradoException, ListaTabelasInexistenteException {
+		return service.pesquisarCobrancas(idPagarReceber);
+	}
+	
+	public Cobranca pesquisarCobranca (int id) throws ListaTabelasNaoEncontradoException, ListaTabelasInexistenteException {
+		return service.pesquisarCobranca(id);
+	}
+	
+	public void cadastrarCobranca (Cobranca cobranca) throws ListaTabelasNaoEncontradoException, ListaTabelasInexistenteException {
+		service.cadastrarCobranca(cobranca);
+	}
+	
+	public void atualizarCobranca (Cobranca cobranca)throws ListaTabelasNaoEncontradoException, ListaTabelasInexistenteException {
+		service.atualizarCobranca(cobranca);
+	}
+	
+	public void removerCobranca (Cobranca cobranca) throws ListaTabelasNaoEncontradoException, ListaTabelasInexistenteException {
+		service.removerCobranca(cobranca);
+	}
+	
+	
+	//Condi��es de pagamento
+	public List<CondicaoPagamento> pesquisarCondicoesPagamento (Integer idPagarReceber, boolean isEager) throws ListaTabelasNaoEncontradoException, ListaTabelasInexistenteException {
+		return service.pesquisarCondicoesPagamento(idPagarReceber, isEager);
+	}
+	
+	public CondicaoPagamento pesquisarCondicaoPagamento (int id) throws ListaTabelasNaoEncontradoException, ListaTabelasInexistenteException {
+		return service.pesquisarCondicaoPagamento(id);
+	}
+	
+	public void cadastrarCondicaoPagamento (CondicaoPagamento condicao) throws ListaTabelasNaoEncontradoException, ListaTabelasInexistenteException {
+		service.cadastrarCondicaoPagamento(condicao);
+	}
+	
+	public void atualizarCondicaoPagamento (CondicaoPagamento condicao)throws ListaTabelasNaoEncontradoException, ListaTabelasInexistenteException {
+		service.atualizarCondicaoPagamento(condicao);
+	}
+	
+	public void removerCondicaoPagamento (CondicaoPagamento condicao) throws ListaTabelasNaoEncontradoException, ListaTabelasInexistenteException {
+		service.removerCondicaoPagamento(condicao);
+	}
+
+	
+}

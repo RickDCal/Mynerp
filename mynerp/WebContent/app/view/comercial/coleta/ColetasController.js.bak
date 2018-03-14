@@ -1,0 +1,152 @@
+Ext.define('Mynerp.view.comercial.coleta.ColetasController', {
+    extend: 'Mynerp.view.base.ViewController',
+
+    alias: 'controller.coletas',
+
+    requires: [
+        'Mynerp.view.comercial.coleta.ColetaWindow',
+        'Mynerp.view.base.ViewController'
+        //'Mynerp.ux.grid.Printer'
+    ],
+
+    onColetaSelect: function(id){
+        var me = this,
+            grid = me.lookupReference('coletasGrid'),
+            store = me.getStore('coletas'),
+            record = store.findRecord( 'id', id );
+
+        if (record){
+            grid.getSelectionModel().select(record);
+        }
+    },
+
+    onItemClick: function( view, record, item, index, e, eOpts ) {
+        this.redirectTo('coletas/' + record.get('id'));
+    },
+
+    createDialog: function(record){
+
+        var me = this,
+            view = me.getView(),
+            glyphs = Mynerp.util.Glyphs;
+
+        me.isEdit = !!record;
+        me.dialog = view.add({
+            xtype: 'coleta-window',
+            viewModel: {
+                data: {
+                    title: record ? 'Editar: ' + record.get('id') + ' - Cliente: ' + record.get('nomeCliente') : 'Cadastrar',
+                    glyph: record ? glyphs.getGlyph('edit') : glyphs.getGlyph('add')
+                },
+                links: {
+                    currentCadastro: record || {
+                        type: 'Coleta',
+                        create: true
+                        // create: {
+                        //     id: '0'
+                        // }
+                    }
+                }
+            },
+            session: true //child session
+        });
+
+        me.dialog.show();
+
+    },
+
+    onDbClick: function( grid, record, tr, rowIndex, e, eOpts ) { // eu que coloquei este evento    
+        var me = this;
+        me.createDialog(record);
+    },
+
+    getRecordSelected: function(button) {
+        var grid  = button.up('coletas-grid');
+            return grid.getSelection();
+    },
+
+    onEdit: function (button) { // override no onEdit da base.ViewController
+        var me = this;
+        try {
+            me.createDialog(button.getWidgetRecord()); // se o botão estiver na linha do grid
+        } catch (e) {// se o botão estiver na barra
+            records = me.getRecordSelected(button),
+            record = records[0];
+            if (!!record) {
+                me.createDialog(record);
+            } else {
+                Mynerp.util.Util.showAlertMsg('Nenhum registro selecionado para edição.');
+            }             
+        }     
+    },    
+
+    onSave: function(button, e, options){
+
+        var me = this,
+            dialog = me.dialog,
+            view = me.getView(),
+            form = me.lookupReference('coletaForm'),
+            isEdit = me.isEdit,
+            session = me.getSession(),
+            store = me.getStore('coletas'),
+            id;
+
+        if (form.isValid()) {
+            if (!isEdit) {
+                id = dialog.getViewModel().get('currentCadastro').id;
+            }
+            dialog.getSession().save(); //salvou as alterações da tela na sessão e no servidor, a store ainda não sabe
+            if (!isEdit) {
+                //me.getStore('clientes').add(session.getRecord('Cliente', id)); // aqui adiciona o registro salvo da store pra não precisar buscar denovo com o sync
+                store.add(session.getRecord('Coleta', id)); // aqui adiciona o registro salvo da store pra não precisar buscar denovo com o sync
+            }
+            
+            store.sync({
+                success: function(form, action) {
+                    me.onCancel(); //fecha a janelinha
+                    me.refresh(); //chama outro método logo abaixo
+
+                    Mynerp.util.Util.showToast('Cadastro salvo com sucesso!'); // mostar mensagem
+                },
+                failure: function(form, action) {
+                    Mynerp.util.Util.handleFormFailure(action);
+                }
+            });
+
+        }
+
+    },
+
+    onDelete: function (button, e, options) {
+        var me = this,            
+            store = me.getStore('coletas'),            
+            record;
+
+        try {
+            record = button.getWidgetRecord(); // se o botão estiver na linha do grid
+        } catch (e){
+            record = me.getRecordSelected(button); // se o botão estiver na barra de ferramentas
+        }
+
+        Ext.Msg.show({
+            title: 'Delete',
+            msg: 'Tem certeza que deseja excluir?',
+            buttons: Ext.Msg.YESNO,
+            icon: Ext.Msg.QUESTION,
+            fn: function (buttonId) {
+                if (buttonId == 'yes') {
+                    store.remove(record);
+                    store.sync();
+                }
+            }
+        });
+    },
+
+    refresh: function(button, e, options) {
+        var me = this,
+            store = me.getStore('coletas');
+        store.load();
+    }
+
+
+});
