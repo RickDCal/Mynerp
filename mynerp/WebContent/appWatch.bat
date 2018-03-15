@@ -1,2 +1,0 @@
-sencha app watch
-pause
