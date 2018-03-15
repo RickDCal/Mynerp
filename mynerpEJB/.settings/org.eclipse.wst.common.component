@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="mynerpEJB">
-        <wb-resource deploy-path="/" source-path="/ejbModule"/>
-        <property name="ClientProject" value="mynerpEJBClient"/>
-        <property name="ClientJARURI" value="mynerpEJBClient.jar"/>
-        <property name="java-output-path" value="/mynerpEJB/build/classes"/>
-    </wb-module>
-</project-modules>
