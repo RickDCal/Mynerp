@@ -1,0 +1,140 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+tr.grid, td.grid, th.grid, td.paging, td.resultadoConsulta {
+	border-style:solid;
+	border-width:thin;
+	border-color: #666;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+
+tr.grid:hover {
+	background-color: #E6E6E6;
+}
+
+#grid {
+	min-width: 800px;
+	border-collapse:collapse;
+}
+
+th.grid, th.acao, td.paging  {
+	background:url("../images/bg_head.png") bottom center repeat-x;
+	text-align: left;
+	height: 22px;
+}
+
+th.acao {
+	min-width: 40px;
+}
+
+td.acao, td.resultadoConsulta {
+	text-align: center;
+}
+
+.numpag {
+	width: 12px;
+	height: 10px;
+	margin-bottom: 4px;
+}
+
+.nav:hover {
+	height: 18px;
+	background-color: grey;
+}
+
+.letra:hover {
+	height: 18px;
+	background-color: #E6E6E6;
+}
+
+.resultadoConsulta {
+	font-weight: bold;
+	height: 200px;
+}
+
+.letraSelecionada {
+	background-color: #E6E6E6;
+}
+
+td.tam0, th.tam0, input.tam0 {
+	width: 16px;
+}
+
+td.tam1, th.tam1, input.tam1 {
+	width: 20px;
+}
+
+td.tam2, th.tam2 {
+	width: 40px;
+}
+
+td.tam3, th.tam3 {
+	width: 60px;
+}
+
+td.tam4, th.tam4 {
+	width: 80px;
+}
+
+td.tam5, th.tam5 {
+	width: 100px;
+}
+
+td.tam6, th.tam6 {
+	width: 120px;
+}
+
+td.tam7, th.tam7 {
+	width: 140px;
+}
+
+td.tam8, th.tam8 {
+	width: 160px;
+}
+
+td.tam9, th.tam9 {
+	width: 180px;
+}
+
+td.tam10, th.tam10 {
+	width: 200px;
+}
+
+td.tam11, th.tam11 {
+	width: 220px;
+}
+
+td.tam12, th.tam12 {
+	width: 240px;
+}
+
+td.tam13, th.tam13 {
+	width: 280px;
+}
+
+td.tam14, th.tam14 {
+	width: 320px;
+}
+
+td.tam15, th.tam15 {
+	width: 360px;
+}
+
+td.tam16, th.tam16 {
+	width: 400px;
+}
+
+#paginacao {
+	font-size: 0.7em;
+}
+
+input.cell, select.cell {
+	width: 100%;
+    box-sizing: border-box;	
+    height: 21px;
+}
+
+
+
+
